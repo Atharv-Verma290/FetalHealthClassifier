@@ -18,4 +18,4 @@ with app.app_context():
 
 @app.route('/')
 def index():
-  return "Hello, World!"
+  return "Hello, World! The testint commit"
