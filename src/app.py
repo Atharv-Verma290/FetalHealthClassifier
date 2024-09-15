@@ -1,20 +1,20 @@
 from flask import Flask, request, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
 from os import environ
-from src.db_init import db
-from src.models import RawData
-import pandas as pd
+import sys
+from src.logger import logging
+from src.exception import CustomException
+from .database import init_db
+from .components.data_ingestion import DataIngestion
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DB_URL')
-db.init_app(app)
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+init_db(app)
 
-csv_file_path = "data/fetal_health.csv"
-df = pd.read_csv(csv_file_path)
+data_ingestor = DataIngestion(app=app)
+data_ingestor.initiate_data_ingestion()
 
-with app.app_context():
-  db.create_all()
-  df.to_sql('raw_data', db.engine, if_exists='replace', index=False)
 
 @app.route('/')
 def index():
