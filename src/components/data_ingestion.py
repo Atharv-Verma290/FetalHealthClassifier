@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from src.models import RawData, TrainData, TestData
+from src.models import RawData, FeatureData, TargetData
 from src.database import db
 from src.logger import logging
 from src.exception import CustomException
@@ -46,20 +46,6 @@ class DataIngestion:
       train_set,test_set, = train_test_split(df,test_size=0.2,random_state=42)
 
       train_set.to_csv(self.ingestion_config.train_data_path,index=False,header=True)
-      
-      #putting train data into train_data table
-      df = pd.read_csv(self.ingestion_config.train_data_path)
-      with self.app.app_context():
-        df.to_sql('train_data', db.engine, if_exists='replace', index=False)
-        db.session.commit()
-
-      test_set.to_csv(self.ingestion_config.test_data_path,index=False,header=True)
-
-      #putting test data into test_data table
-      df = pd.read_csv(self.ingestion_config.test_data_path)
-      with self.app.app_context():
-        df.to_sql('test_data', db.engine, if_exists='replace', index=False)
-        db.session.commit()
       logging.info("Data ingestion completed")
     except Exception as e:
       raise CustomException(e,sys)
