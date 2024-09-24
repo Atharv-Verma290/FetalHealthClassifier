@@ -7,18 +7,16 @@ from src.exception import CustomException
 from .database import init_db
 from .components.data_ingestion import DataIngestion
 from .components.data_transformation import DataTransformation
+from .pipeline.train_pipeline import TrainPipeline
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DB_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 init_db(app)
 
-data_ingestor = DataIngestion(app=app)
-data_ingestor.initiate_data_ingestion()
-
-data_transformer = DataTransformation(app=app)
-data_transformer.initiate_data_transformation()
-
+logging.info("Calling train pipeline")
+train_pipeline = TrainPipeline()
+train_pipeline.initiate_training()
 
 @app.route('/')
 def index():

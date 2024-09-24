@@ -3,10 +3,8 @@ import sys
 import os
 from src.logger import logging
 from src.exception import CustomException
-from sklearn.preprocessing import MinMaxScaler
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score
 from src.utils import save_object, evaluate_model
 
@@ -19,26 +17,32 @@ class ModelTrainer:
   def __init__(self):
     self.model_trainer_config = ModelTrainerConfig()
 
-  def initiate_model_trainer(self, X, y):
+  def initiate_model_trainer(self, train_array, test_array):
+    logging.info("Entered model trainer component")
     try: 
       logging.info("Splitting X and y data")
-      X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+      X_train, y_train, X_test, y_test = (
+        train_array[:,:-3],
+        train_array[:,-3],
+        test_array[:,:-3],
+        test_array[:,-3]
+      )
 
       models = {
         "Random Forest": RandomForestClassifier(),
         "Decision Tree": DecisionTreeClassifier(),
       }
-
+      logging.info(f"models list: {models}")
       params={
         "Decision Tree": {
-          'criterion': ['squared_error', 'friedman_mse', 'absolute_error', 'poisson'],
+          'criterion': ['gini', 'entropy'],
           'splitter' : ['best', 'random'],
           'max_features': ['sqrt', 'log2'],
           'max_depth': [2, 5, 8, 10, None],
           'min_samples_split': [2, 5, 10],
         },
         "Random Forest": {
-          'criterion': ['gini','entropy', 'squared_error', 'friedman_mse', 'absolute_error', 'poisson'],
+          'criterion': ['gini','entropy'],
           'max_features': ['sqrt', 'log2', None],
           'n_estimators': [8, 16, 32, 64, 128, 256],
           'max_features': [1,3,5,7],
@@ -72,22 +76,6 @@ class ModelTrainer:
       predicted = best_model.predict(X_test)
       r2_square = r2_score(y_test, predicted)
       return r2_square
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     except Exception as e:
       raise CustomException(e,sys)

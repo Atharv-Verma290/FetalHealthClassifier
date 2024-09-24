@@ -16,8 +16,7 @@ class DataIngestionConfig:
 
 
 class DataIngestion:
-  def __init__(self, app):
-    self.app = app
+  def __init__(self):
     self.ingestion_config = DataIngestionConfig()
     self.db = db
 
@@ -27,18 +26,18 @@ class DataIngestion:
       logging.info("Starting data ingestion...")
       df = pd.read_csv(self.ingestion_config.raw_data_path)
 
-      #putting raw data into database
-      logging.info("Before creating database tables...")
-      with self.app.app_context():
-        logging.info("Flask app initialized: {}".format(self.app))
+      # #putting raw data into database
+      # logging.info("Before creating database tables...")
+      # with self.app.app_context():
+      #   logging.info("Flask app initialized: {}".format(self.app))
       
-        logging.info("Creating database tables...")
-        db.create_all()
-        logging.info("Database tables created successfully")
+      #   logging.info("Creating database tables...")
+      #   db.create_all()
+      #   logging.info("Database tables created successfully")
 
-      # Inserting data into raw_data table
-        df.to_sql('raw_data', db.engine, if_exists='replace', index=False)
-        db.session.commit()
+      # # Inserting data into raw_data table
+      #   df.to_sql('raw_data', db.engine, if_exists='replace', index=False)
+      #   db.session.commit()
 
       os.makedirs(os.path.dirname(self.ingestion_config.test_data_path),exist_ok=True)
       os.makedirs(os.path.dirname(self.ingestion_config.train_data_path),exist_ok=True)
@@ -46,7 +45,14 @@ class DataIngestion:
       train_set,test_set, = train_test_split(df,test_size=0.2,random_state=42)
 
       train_set.to_csv(self.ingestion_config.train_data_path,index=False,header=True)
+      test_set.to_csv(self.ingestion_config.test_data_path,index=False,header=True)
       logging.info("Data ingestion completed")
+
+      return (
+        self.ingestion_config.train_data_path,
+        self.ingestion_config.test_data_path
+      )
+    
     except Exception as e:
       raise CustomException(e,sys)
     
