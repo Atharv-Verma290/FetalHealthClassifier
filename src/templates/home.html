@@ -1,0 +1,104 @@
+{%  extends "base.html" %}
+
+{% block content %}
+<div class="login">
+  <h1>Fetal Health Classifier</h1>
+
+  <form action="{{ url_for('predict_datapoint')}}" method="post">
+    <h1>
+      <legend>Student Exam Performance Prediction</legend>
+  </h1>
+  <div class="mb-3">
+    <label class="form-label" for="baseline_value">Baseline Value:</label>
+    <input class="form-control" type="number" id="baseline_value" name="baseline_value" step="any" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="accelerations">Accelerations:</label>
+    <input class="form-control" type="number" id="accelerations" name="accelerations" step="any" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="fetal_movement">Fetal Movement:</label>
+    <input class="form-control" type="number" id="fetal_movement" name="fetal_movement" step="any" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="uterine_contractions">Uterine Contractions:</label>
+    <input class="form-control" type="number" id="uterine_contractions" name="uterine_contractions" step="any" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="light_decelerations">Light Decelerations:</label>
+    <input class="form-control" type="number" id="light_decelerations" name="light_decelerations" step="any" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="severe_decelerations">Severe Decelerations:</label>
+    <input class="form-control" type="number" id="severe_decelerations" name="severe_decelerations" step="any" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="prolongued_decelerations">Prolongued Decelerations:</label>
+    <input class="form-control" type="number" id="prolongued_decelerations" name="prolongued_decelerations" step="any" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="abnormal_short_term_variability">Abnormal Short-Term Variability:</label>
+    <input class="form-control" type="number" id="abnormal_short_term_variability" name="abnormal_short_term_variability" step="any" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="mean_value_of_short_term_variability">Mean Value of Short-Term Variability:</label>
+    <input class="form-control" type="number" id="mean_value_of_short_term_variability" name="mean_value_of_short_term_variability" step="any" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="percentage_of_time_with_abnormal_long_term_variability">Percentage of Time with Abnormal Long-Term Variability:</label>
+    <input class="form-control" type="number" id="percentage_of_time_with_abnormal_long_term_variability" name="percentage_of_time_with_abnormal_long_term_variability" step="any" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="mean_value_of_long_term_variability">Mean Value of Long-Term Variability:</label>
+    <input class="form-control" type="number" id="mean_value_of_long_term_variability" name="mean_value_of_long_term_variability" step="any" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="histogram_width">Histogram Width:</label>
+    <input class="form-control" type="number" id="histogram_width" name="histogram_width" step="any" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="histogram_min">Histogram Min:</label>
+    <input class="form-control" type="number" id="histogram_min" name="histogram_min" step="any" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="histogram_max">Histogram Max:</label>
+    <input class="form-control" type="number" id="histogram_max" name="histogram_max" step="any" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="histogram_number_of_peaks">Histogram Number of Peaks:</label>
+    <input class="form-control" type="number" id="histogram_number_of_peaks" name="histogram_number_of_peaks" step="any" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="histogram_number_of_zeroes">Histogram Number of Zeroes:</label>
+    <input class="form-control" type="number" id="histogram_number_of_zeroes" name="histogram_number_of_zeroes" step="any" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="histogram_mode">Histogram Mode:</label>
+    <input class="form-control" type="number" id="histogram_mode" name="histogram_mode" step="any" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="histogram_mean">Histogram Mean:</label>
+    <input class="form-control" type="number" id="histogram_mean" name="histogram_mean" step="any" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="histogram_median">Histogram Median:</label>
+    <input class="form-control" type="number" id="histogram_median" name="histogram_median" step="any" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="histogram_variance">Histogram Variance:</label>
+    <input class="form-control" type="number" id="histogram_variance" name="histogram_variance" step="any" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="histogram_tendency">Histogram Tendency:</label>
+    <input class="form-control" type="number" id="histogram_tendency" name="histogram_tendency" step="any" required>
+  </div>
+  <div class="mb-3">
+      <input class="btn btn-primary" type="submit" value="Predict Fetal Health" required />
+  </div>
+  </form>
+  <h3>
+    The prediction is {{results}}
+  </h3>
+{% endblock content %}
+
+
