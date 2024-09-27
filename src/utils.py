@@ -55,3 +55,15 @@ def load_object(file_path):
     
   except Exception as e:
     raise CustomException(e, sys)
+  
+
+def process_result(result):
+  try:
+    label_encoder_path = 'artifacts/label_encoder.joblib'
+    label_encoder = load_object(label_encoder_path)
+    result = [result]
+    result = [int(r) for r in result]
+    output = label_encoder.inverse_transform(result)
+    return output
+  except Exception as e:
+    raise CustomException(e, sys)

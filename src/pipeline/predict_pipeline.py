@@ -2,7 +2,7 @@ import sys
 import pandas as pd
 from src.exception import CustomException
 from src.logger import logging
-from src.utils import load_object
+from src.utils import load_object, process_result
 
 class PredictPipeline:
   def __init__(self):
@@ -11,12 +11,13 @@ class PredictPipeline:
   def predict(self, features):
     try:
       model_path = 'artifacts/model.joblib'
-      feature_preprocessor_path = 'artifacts/feature_preprocessor.joblib'
+      preprocessor_path = 'artifacts/preprocessor.joblib'
       model = load_object(file_path = model_path)
-      preprocessor = load_object(file_path=feature_preprocessor_path)
+      preprocessor = load_object(file_path=preprocessor_path)
       data_scaled = preprocessor.transform(features)
       preds = model.predict(data_scaled)
-      return preds
+      result = process_result(preds)
+      return result
     
     except Exception as e:
       raise CustomException(e, sys)

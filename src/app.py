@@ -9,6 +9,7 @@ from .components.data_ingestion import DataIngestion
 from .components.data_transformation import DataTransformation
 from .pipeline.train_pipeline import TrainPipeline
 from .pipeline.predict_pipeline import CustomData, PredictPipeline
+from src.utils import process_result
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DB_URL')
@@ -55,9 +56,8 @@ def predict_datapoint():
     print(pred_df)
 
     predict_pipeline = PredictPipeline()
-    results = predict_pipeline.predict(pred_df)
-    print(results)
-    return render_template('home.html', results=results)
+    result = predict_pipeline.predict(pred_df)
+    logging.info(f"Output is: {result}")
+    return render_template('home.html', result=result)
   
 
-    
