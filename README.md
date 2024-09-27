@@ -6,4 +6,4 @@ in order to run type:
 docker compose up
 ```
 ## URL
-runs on localhost:4000/predictdata 
+POST json object on localhost:4000/predictdata 
