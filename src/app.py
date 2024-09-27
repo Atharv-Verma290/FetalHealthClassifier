@@ -14,7 +14,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 init_db(app)
 
 logging.info("Calling train pipeline")
-train_pipeline = TrainPipeline()
+train_pipeline = TrainPipeline(app=app)
 train_pipeline.initiate_training()
 
 @app.route('/')

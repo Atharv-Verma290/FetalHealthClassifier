@@ -8,12 +8,12 @@ from ..components.model_trainer import ModelTrainer
 
 
 class TrainPipeline:
-  def __init__(self):
-    pass
+  def __init__(self, app):
+    self.app = app
 
   def initiate_training(self):
     try:
-      obj = DataIngestion()
+      obj = DataIngestion(app=self.app)
       train_data, test_data = obj.initiate_data_ingestion()
 
       data_transformation = DataTransformation()
@@ -21,7 +21,6 @@ class TrainPipeline:
 
       model_trainer = ModelTrainer()
       logging.info(f"the r2 score of best model: {model_trainer.initiate_model_trainer(train_array=train_arr, test_array=test_arr)}")
-      # print(model_trainer.initiate_model_trainer(train_array=train_arr, test_array=test_arr))
     except Exception as e:
       raise CustomException(e, sys)
 
