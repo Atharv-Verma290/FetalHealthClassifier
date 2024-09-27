@@ -20,7 +20,7 @@ class TrainPipeline:
       train_arr, test_arr,_,_ = data_transformation.initiate_data_transformation(train_path=train_data, test_path=test_data)
 
       model_trainer = ModelTrainer()
-      logging.info(f"the r2 score of best model: {model_trainer.initiate_model_trainer(train_array=train_arr, test_array=test_arr)}")
+      logging.info(f"the accuracy score of best model: {model_trainer.initiate_model_trainer(train_array=train_arr, test_array=test_arr)}")
     except Exception as e:
       raise CustomException(e, sys)
 

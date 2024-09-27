@@ -5,7 +5,7 @@ from src.logger import logging
 from src.exception import CustomException
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import r2_score
+from sklearn.metrics import accuracy_score
 from src.utils import save_object, evaluate_model
 
 
@@ -74,8 +74,8 @@ class ModelTrainer:
       )
 
       predicted = best_model.predict(X_test)
-      r2_square = r2_score(y_test, predicted)
-      return r2_square
+      accuracy = accuracy_score(y_test, predicted)
+      return accuracy
 
     except Exception as e:
       raise CustomException(e,sys)
